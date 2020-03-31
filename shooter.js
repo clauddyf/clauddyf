@@ -1,4 +1,5 @@
 var ShooterGame = function(config){
+    // debugger
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
 
@@ -35,14 +36,16 @@ var ShooterGame = function(config){
         }
 
         this.collision = function(go){
-            return !(go.x > this.x + this.width) ||
+            if(!(go.x > (this.x + this.width)) ||
             go.x + go.width < this.x ||
-            go.y > this.y + this.height ||
-            go.y + go.height < this.y;
+            go.y > this.y + this.height || 
+            go.y + go.height < this.y){
+                return false
+            }
         }
     }
 
-        var ImageManager = function(){
+    var ImageManager = function(){
             this.images = {};
             var that = this;
             
@@ -59,17 +62,17 @@ var ShooterGame = function(config){
                 }
                 return false;
             }
-        }
+    }
 
-        var imageManager = new ImageManager();
+    var imageManager = new ImageManager();
         imageManager.load('player', "images/kjsface.jpg")    //fill in the images for the file
         imageManager.load('enemy', 'images/enemy.jpg')
         imageManager.load('back2', 'images/stars1.jpg')
         imageManager.load('back1', 'images/stars2.jpg')
 
-        var gameOver = false;
+    var gameOver = false;
 
-        var Player = function(){
+    var Player = function(){
             this.gameObject = new GameObject(0, canvas.height - 100, 90, 100);
 
             this.update = function(vec){
@@ -82,10 +85,10 @@ var ShooterGame = function(config){
                     context.drawImage(img, this.gameObject.x, this.gameObject.y, this.gameObject.width, this.gameObject.height)
                 }
             }
-        }
+    }
         
 
-        var Bullet = function(startPos, speed, color){
+    var Bullet = function(startPos, speed, color){
             var isVisible = true;
             this.gameObject = startPos.clone();
             this.gameObject.add(new GameObject((this.gameObject.width)/2, (this.gameObject.height) /2))
@@ -106,9 +109,9 @@ var ShooterGame = function(config){
                 context.fillStyle = this.color;
                 context.fillRect(this.gameObject.x, this.gameObject.y, this.gameObject.width, this.gameObject.height);
             }
-        }
+    }
 
-        var Enemy = function(speed){
+    var Enemy = function(speed){
             this.gameObject = new GameObject( getRandom(0, canvas.width),-20,50,50);
             this.bullets = [];
             this.collision = function(go){
@@ -147,9 +150,9 @@ var ShooterGame = function(config){
                     this.bullets[i].draw();
                 }
             }
-        }
+    }
         
-        var ScoreManager = function(pos,color){
+    var ScoreManager = function(pos,color){
             this.score = 0;
             this.gameObject = pos;
             this.color = color || 'red';
@@ -167,8 +170,8 @@ var ShooterGame = function(config){
                 context.textBaseline = 'middle';
                 context.fillText(this.score, this.gameObject.x, this.gameObject.y);
             }
-        }
-        var scoreManager = new ScoreManager(new GameObject(canvas.width/2,50,0,0));
+    }
+    var scoreManager = new ScoreManager(new GameObject(canvas.width/2,50,0,0));
         /**  
          *
          * 
@@ -177,21 +180,20 @@ var ShooterGame = function(config){
         **/
 
         
-        var getCanvasMouse = function(e){
-            debugger
+    var getCanvasMouse = function(e){
+            // debugger
             var rect = canvas.getBoundingClientRect();
             var x = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
             var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
             return new Vector(x,y)
-        };
+    };
 
-        var World = function(){
+    var World = function(){
             var player = new Player();
             var enemies = [];
             var bullets = [];
             var lastEnemy = 0;
             var enemyTimeThreshold = 1000;
-
             var update = function(){
                 if(lastEnemy + enemyTimeThreshold < Date.now()){
                     enemies.push(new Enemy(new GameObject(0,5,0,0)));
@@ -200,6 +202,7 @@ var ShooterGame = function(config){
 
                 for( var key in enemies){
                     var enemy = enemies[key];
+                    // debugger
                     if (enemy.collision(player)){
                         console.log('Game Over KEITH RUSSEL');
                         enemies[key] = null;
@@ -224,7 +227,7 @@ var ShooterGame = function(config){
                 for(var key in enemies){
                     var enemy = enemies[key];
 
-                    if(enemy != null && (eney.gameObject.x < 0 || enemy.gameObject.x > canvas.width || enemy.gameObject.y > canvas.height)){
+                    if(enemy != null && (enemy.gameObject.x < 0 || enemy.gameObject.x > canvas.width || enemy.gameObject.y > canvas.height)){
                         enemies[key] = null;
                     }
                 }
@@ -241,6 +244,7 @@ var ShooterGame = function(config){
             }
 
             var clear = function(color){
+                debugger
                 var img1 = imageManager.get('back1');
                 var img2 = imageManager.get('back2');
 
@@ -251,9 +255,10 @@ var ShooterGame = function(config){
             }
 
             var draw = function(){
+                debugger
                 update();
 
-                clear('black');
+                clear('green');
 
                 player.draw();
 
@@ -293,11 +298,11 @@ var ShooterGame = function(config){
             canvas.addEventListener('mousedown', function(e){
                 bullets.push(new Bullet(player.gameObject, new GameObject(0,-20,0,0)));
             });
-        }
+    }
 
-        World();
+    World();
 
-        document.body.appendChild(canvas);
+    document.body.appendChild(canvas);
 }
 
 ShooterGame();
