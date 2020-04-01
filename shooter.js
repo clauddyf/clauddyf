@@ -122,7 +122,6 @@ var ShooterGame = function(config){
             }
             
             this.collision = function(go){
-                debugger
                 return this.gameObject.collision(go.gameObject);
             }
 
@@ -208,8 +207,7 @@ var ShooterGame = function(config){
             var enemies = [];
             var bullets = [];
             var lastEnemy = 0;
-            var enemyTimeThreshold = 1000;
-            debugger
+            var enemyTimeThreshold = 500;
             var update = function(){
                 if(lastEnemy + enemyTimeThreshold < Date.now()){
                     enemies.push(new Enemy(new GameObject(0,5,0,0)));
@@ -302,11 +300,22 @@ var ShooterGame = function(config){
 
             var lastX = 0;
             canvas.addEventListener('mousemove', function(e){
+                debugger
                 var x = e.clientX;
 
                 player.update(new GameObject(x- lastX,0,0,0));
                 lastX = x;
             });
+
+            // canvas.addEventListener('keydown',function(e){
+            //     debugger
+            //     var code = e.keyCode || e.charCode
+            //     var x = e.location
+            //     switch(code){
+            //         case (37): player.update(new GameObject(x - lastX, 0, 0, 0));
+            //         case (39): player.update(new GameObject(lastX + x,0,0,0))
+            //     }
+            // });
 
             canvas.addEventListener('mousedown', function(e){
                 bullets.push(new Bullet(player.gameObject, new GameObject(0,-20,0,0)));
