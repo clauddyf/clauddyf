@@ -1,5 +1,4 @@
 var ShooterGame = function(config){
-    // debugger
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
 
@@ -34,13 +33,36 @@ var ShooterGame = function(config){
         this.clone = function(){
             return new GameObject(this.x, this.y, this.width, this.height)
         }
-
-        this.collision = function(go){
-            if(!(go.x > (this.x + this.width)) ||
-            go.x + go.width < this.x ||
-            go.y > this.y + this.height || 
-            go.y + go.height < this.y){
+        // this.collision = function(go){
+        //     if(!(go.x > (this.x + this.width)) ||
+        //     go.x + go.width < this.x ||
+        //     go.y > this.y + this.height || 
+        //     go.y + go.height < this.y){
+        //         return false
+        //     }
+        // }
+        // this.collision = function(go){
+        //     if(
+        //         (go.x > (this.x + this.width)) &&
+        //         (go.x + go.width) < this.x &&
+        //         ((this.y + this.height) < 261 && (this.x + this.width) < go.x) &&
+        //         ((this.y + this.height) < 261 && (this.x) > (go.x + go.width))
+        //     ){
+        //         return false
+        //     } else {
+        //         return true
+        //     }
+        // }
+        this.collision = function (go) {
+            if(
+                ((this.x + this.width) < go.x) ||
+                ((this.x > (go.x + go.width)))
+            ){
                 return false
+            } else if ((this.x + this.width) >= go.x && ((this.y + this.height) >= go.y)){
+                return true
+            } else if ((go.x + go.width >= this.x) && ((this.y + this.height) >= go.y)){
+                return true
             }
         }
     }
@@ -67,8 +89,8 @@ var ShooterGame = function(config){
     var imageManager = new ImageManager();
         imageManager.load('player', "images/kjsface.jpg")    //fill in the images for the file
         imageManager.load('enemy', 'images/enemy.jpg')
-        imageManager.load('back2', 'images/stars1.jpg')
-        imageManager.load('back1', 'images/stars2.jpg')
+        imageManager.load('back2', 'images/stars2.jpg')
+        imageManager.load('back1', 'images/stars1.jpg')
 
     var gameOver = false;
 
@@ -93,13 +115,14 @@ var ShooterGame = function(config){
             this.gameObject = startPos.clone();
             this.gameObject.add(new GameObject((this.gameObject.width)/2, (this.gameObject.height) /2))
             this.gameObject.dimension(1,10);
-            this.color = color || 'red';
+            this.color = color || 'pink';
 
             this.update = function(){
                 this.gameObject.add(speed);
             }
-
+            
             this.collision = function(go){
+                debugger
                 return this.gameObject.collision(go.gameObject);
             }
 
@@ -171,17 +194,9 @@ var ShooterGame = function(config){
                 context.fillText(this.score, this.gameObject.x, this.gameObject.y);
             }
     }
-    var scoreManager = new ScoreManager(new GameObject(canvas.width/2,50,0,0));
-        /**  
-         *
-         * 
-         * 
-         * 
-        **/
+    var scoreManager = new ScoreManager(new GameObject(canvas.width/2,75,0,0));
 
-        
     var getCanvasMouse = function(e){
-            // debugger
             var rect = canvas.getBoundingClientRect();
             var x = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
             var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
@@ -194,6 +209,7 @@ var ShooterGame = function(config){
             var bullets = [];
             var lastEnemy = 0;
             var enemyTimeThreshold = 1000;
+            debugger
             var update = function(){
                 if(lastEnemy + enemyTimeThreshold < Date.now()){
                     enemies.push(new Enemy(new GameObject(0,5,0,0)));
@@ -202,7 +218,6 @@ var ShooterGame = function(config){
 
                 for( var key in enemies){
                     var enemy = enemies[key];
-                    // debugger
                     if (enemy.collision(player)){
                         console.log('Game Over KEITH RUSSEL');
                         enemies[key] = null;
@@ -244,7 +259,6 @@ var ShooterGame = function(config){
             }
 
             var clear = function(color){
-                debugger
                 var img1 = imageManager.get('back1');
                 var img2 = imageManager.get('back2');
 
@@ -255,7 +269,6 @@ var ShooterGame = function(config){
             }
 
             var draw = function(){
-                debugger
                 update();
 
                 clear('green');
