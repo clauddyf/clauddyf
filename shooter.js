@@ -73,7 +73,7 @@ var ShooterGame = function(config){
     }
 
     var imageManager = new ImageManager();
-        imageManager.load('player', "images/ajasface.jpg")    //fill in the images for the file
+        imageManager.load('player', "images/kjsface.jpg")    //fill in the images for the file
         imageManager.load('enemy', 'images/enemy2.png')
         imageManager.load('back2', 'images/space2.jpg')
         imageManager.load('back1', 'images/stars1.jpg')
