@@ -85,7 +85,7 @@ var ShooterGame = function(config){
             this.speed = 50
             var bullets = []
             this.update = function(status){
-                debugger
+                // debugger
                 if (KEY_STATUS.left){
                     this.gameObject.add(new GameObject(-this.speed,0,0,0))
                     if(this.gameObject.x <= 0){
@@ -216,7 +216,7 @@ var ShooterGame = function(config){
             var enemies = [];
             var bullets = [];
             var lastEnemy = 0;
-            var enemyTimeThreshold = 1000;
+            var enemyTimeThreshold = 5000;
             var update = function(){
                 if(lastEnemy + enemyTimeThreshold < Date.now()){
                     enemies.push(new Enemy(new GameObject(0,5,0,0)));
@@ -347,7 +347,7 @@ var ShooterGame = function(config){
             // });
 
             window.addEventListener('keydown',function(e){
-                debugger
+                // debugger
                 var keyCode = (e.keyCode) ? e.keyCode : e.charCode
                 if (KEY_CODES[keyCode] === 'space'){
                     bullets.push(new Bullet(player.gameObject, new GameObject(0, -20, 0, 0)))
@@ -374,8 +374,10 @@ var ShooterGame = function(config){
     }
 
     World();
-
-    document.body.appendChild(canvas);
+    debugger
+    document.body.appendChild(canvas); 
+    // document.querySelectorAll('.shooting-area').appendChild(canvas)
+    document.getElementById('shooting-area').appendChild(canvas)
 }
 
 ShooterGame();

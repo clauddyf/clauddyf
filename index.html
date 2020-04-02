@@ -5,12 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K'js Game</title>
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:900|Monda:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styling.css">
     <style type='text/css'>
-        body {overflow:hidden; margin: 0; background:red;}
+        body {overflow:hidden; margin: 0;}
     </style>
 </head>
 <body>
-    <div> Kjs app</div>
+    <header class='BidDaddyWrap'>
+        <section class='DaddiesSection'>
+            <div class='DaddiesDiv'>
+                <h1>Eradicate The 'Rona'</h1>
+                <div class='instructions'>
+                    <p>The world is under attack by COVID-19. The fate of the world is in your hands</p>
+                    <div class='controls'>
+                        <div class='directions'>
+                            <span>
+                                Left: Left Arrow
+                            </span>
+                            <span>
+                                Right: Right Arrow
+                            </span>
+                            <span>
+                                Up: Up Arrow
+                            </span>
+                            <span>
+                                Down: Down Arrow
+                            </span>
+                            <span>
+                                Space: Space Bar
+                            </span>
+                        </div>
+                        <div class='dirphoto'>
+                            <img src="directions.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class='shooting-content'>
+            <div id='shooting-area'></div>
+        </section>
+    </header>
     <script type="text/javascript" src="shooter.js"></script>
 </body>
 </html>
