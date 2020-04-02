@@ -33,26 +33,7 @@ var ShooterGame = function(config){
         this.clone = function(){
             return new GameObject(this.x, this.y, this.width, this.height)
         }
-        // this.collision = function(go){
-        //     if(!(go.x > (this.x + this.width)) ||
-        //     go.x + go.width < this.x ||
-        //     go.y > this.y + this.height || 
-        //     go.y + go.height < this.y){
-        //         return false
-        //     }
-        // }
-        // this.collision = function(go){
-        //     if(
-        //         (go.x > (this.x + this.width)) &&
-        //         (go.x + go.width) < this.x &&
-        //         ((this.y + this.height) < 261 && (this.x + this.width) < go.x) &&
-        //         ((this.y + this.height) < 261 && (this.x) > (go.x + go.width))
-        //     ){
-        //         return false
-        //     } else {
-        //         return true
-        //     }
-        // }
+
         this.collision = function (go) {
             if(
                 ((this.x + this.width) < go.x) ||
@@ -107,30 +88,30 @@ var ShooterGame = function(config){
                     context.drawImage(img, this.gameObject.x, this.gameObject.y, this.gameObject.width, this.gameObject.height)
                 }
             }
-    }
+    } 
         
-
+    // new Bullet(player.gameObject, new GameObject(0, -20, 0, 0))
     var Bullet = function(startPos, speed, color){
-            var isVisible = true;
-            this.gameObject = startPos.clone();
-            this.gameObject.add(new GameObject((this.gameObject.width)/2, (this.gameObject.height) /2))
-            this.gameObject.dimension(1,10);
-            this.color = color || 'pink';
+        var isVisible = true;
+        this.gameObject = startPos.clone();
+        this.gameObject.add(new GameObject((this.gameObject.width)/2, (this.gameObject.height) /2)) //since its starting from 0 and negs, it may shoot up
+        this.gameObject.dimension(1,10);
+        this.color = color || 'pink';
 
-            this.update = function(){
-                this.gameObject.add(speed);
-            }
+        this.update = function(){
+            this.gameObject.add(speed);
+        }
             
-            this.collision = function(go){
-                return this.gameObject.collision(go.gameObject);
-            }
+        this.collision = function(go){
+            return this.gameObject.collision(go.gameObject);
+        }
 
-            this.draw = function(){
-                this.update();
+        this.draw = function(){
+            this.update();
 
-                context.fillStyle = this.color;
-                context.fillRect(this.gameObject.x, this.gameObject.y, this.gameObject.width, this.gameObject.height);
-            }
+            context.fillStyle = this.color;
+            context.fillRect(this.gameObject.x, this.gameObject.y, this.gameObject.width, this.gameObject.height);
+        }
     }
 
     var Enemy = function(speed){
@@ -145,16 +126,16 @@ var ShooterGame = function(config){
                 return this.gameObject.collision(go.gameObject);
             }
             this.update = function(){
+                debugger
                 this.gameObject.add(speed);
-
-                if (getRandom(1,100) > 97) {
-                    this.bullets.push(new Bullet(this.gameObject, new GameObject(0,10,0,0), "blue"));
+                if (getRandom(1,100) < 97) {
+                    this.bullets.push(new Bullet(this.gameObject, new GameObject(0,10,0,0), "white"));
                 }
 
                 for(var i = this.bullets.length -1; i >= 0; i--){
                     this.bullets[i].update();
 
-                    if(this.bullets[i].gameObject.x >0 || this.bullets[i].gameObject.x > canvas.width || this.bullets[i].gameObject.y > canvas.height){
+                    if(this.bullets[i].gameObject.x < 0 || this.bullets[i].gameObject.x > canvas.width || this.bullets[i].gameObject.y > canvas.height){
                         this.bullets.splice(i,1);
                     }
                 }
@@ -255,7 +236,6 @@ var ShooterGame = function(config){
                 enemies = enemies.filter(function(enemy){ return enemy != null;});
                 bullets = bullets.filter(function(bullet){ return bullet != null;});
             }
-
             var clear = function(color){
                 var img1 = imageManager.get('back1');
                 var img2 = imageManager.get('back2');
@@ -267,6 +247,7 @@ var ShooterGame = function(config){
             }
 
             var draw = function(){
+                debugger
                 update();
 
                 clear('green');
@@ -300,20 +281,19 @@ var ShooterGame = function(config){
 
             var lastX = 0;
             canvas.addEventListener('mousemove', function(e){
-                debugger
                 var x = e.clientX;
 
                 player.update(new GameObject(x- lastX,0,0,0));
                 lastX = x;
             });
 
-            // canvas.addEventListener('keydown',function(e){
+            // window.addEventListener('keydown',function(e){
             //     debugger
             //     var code = e.keyCode || e.charCode
             //     var x = e.location
             //     switch(code){
             //         case (37): player.update(new GameObject(x - lastX, 0, 0, 0));
-            //         case (39): player.update(new GameObject(lastX + x,0,0,0))
+            //         case (39): player.update(new GameObject(lastX + ))
             //     }
             // });
 
