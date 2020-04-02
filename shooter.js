@@ -40,6 +40,11 @@ var ShooterGame = function(config){
                 ((this.x > (go.x + go.width)))
             ){
                 return false
+            } else if(
+                ((this.x >= go.x) || (this.x <= (go.x + go.width))) && 
+                ((go.y + go.height) < this.y)
+            ){
+                return false
             } else if ((this.x + this.width) >= go.x && ((this.y + this.height) >= go.y)){
                 return true
             } else if ((go.x + go.width >= this.x) && ((this.y + this.height) >= go.y)){
@@ -101,8 +106,6 @@ var ShooterGame = function(config){
                     if (this.gameObject.y >= canvas.height - this.gameObject.height) {
                         this.gameObject.y = canvas.height - this.gameObject.height
                     }
-                } else if(KEY_STATUS.space){
-                    bullets.push(new Bullet(this.gameObject, new GameObject(0, -20, 0, 0)))
                 }
                 // this.gameObject.add(vec)
             }
@@ -213,7 +216,7 @@ var ShooterGame = function(config){
             var enemies = [];
             var bullets = [];
             var lastEnemy = 0;
-            var enemyTimeThreshold = 8000;
+            var enemyTimeThreshold = 1000;
             var update = function(){
                 if(lastEnemy + enemyTimeThreshold < Date.now()){
                     enemies.push(new Enemy(new GameObject(0,5,0,0)));
