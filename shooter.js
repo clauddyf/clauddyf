@@ -73,10 +73,10 @@ var ShooterGame = function(config){
     }
 
     var imageManager = new ImageManager();
-        imageManager.load('player', "images/kjsface.jpg")    //fill in the images for the file
-        imageManager.load('enemy', 'images/enemy2.png')
-        imageManager.load('back2', 'images/space2.jpg')
-        imageManager.load('back1', 'images/stars1.jpg')
+        imageManager.load('player', "kjsface.jpg")    //fill in the images for the file
+        imageManager.load('enemy', 'enemy2.png')
+        imageManager.load('back2', 'space2.jpg')
+        imageManager.load('back1', 'stars1.jpg')
 
     var gameOver = false;
 
