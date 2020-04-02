@@ -95,7 +95,7 @@ var ShooterGame = function(config){
         var isVisible = true;
         this.gameObject = startPos.clone();
         this.gameObject.add(new GameObject((this.gameObject.width)/2, (this.gameObject.height) /2)) //since its starting from 0 and negs, it may shoot up
-        this.gameObject.dimension(1,10);
+        this.gameObject.dimension(2,15);
         this.color = color || 'pink';
 
         this.update = function(){
@@ -128,8 +128,8 @@ var ShooterGame = function(config){
             this.update = function(){
                 debugger
                 this.gameObject.add(speed);
-                if (getRandom(1,100) < 97) {
-                    this.bullets.push(new Bullet(this.gameObject, new GameObject(0,10,0,0), "white"));
+                if (getRandom(1,100) > 90) {
+                    this.bullets.push(new Bullet(this.gameObject, new GameObject(0,10,0,0), "green"));
                 }
 
                 for(var i = this.bullets.length -1; i >= 0; i--){
