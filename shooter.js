@@ -374,10 +374,10 @@ var ShooterGame = function(config){
     }
 
     World();
-    debugger
-    document.body.appendChild(canvas); 
-    // document.querySelectorAll('.shooting-area').appendChild(canvas)
+    // debugger
+    // document.body.appendChild(canvas); 
     document.getElementById('shooting-area').appendChild(canvas)
+    // document.querySelectorAll('.shooting-area').appendChild(canvas)
 }
 
 ShooterGame();
