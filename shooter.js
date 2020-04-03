@@ -1,4 +1,5 @@
 var ShooterGame = function(config){
+    
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
 
@@ -204,13 +205,29 @@ var ShooterGame = function(config){
     }
     var scoreManager = new ScoreManager(new GameObject(canvas.width/2,75,0,0));
 
+    var GameOver = function(pos){
+        this.gameObject = pos
+        this.doneski = false;
+        this.showGameOver = 'Game Over!'
+        this.show = function(){
+                context.fillStyle = '#ffffff';
+                context.font = '50px Monoton, cursive';;
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                context.fillText(this.showGameOver, this.gameObject.x, this.gameObject.y);
+        }
+    }
+
+    var gameDone = new GameOver(new GameObject(canvas.width / 3, 25, 0, 0))
+
+
     var getCanvasMouse = function(e){
             var rect = canvas.getBoundingClientRect();
             var x = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
             var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
             return new Vector(x,y)
     };
-
+    // debugger
     var World = function(){
             var player = new Player();
             var enemies = [];
@@ -227,6 +244,7 @@ var ShooterGame = function(config){
                     var enemy = enemies[key];
                     if (enemy.collision(player)){
                         console.log('Game Over KEITH RUSSEL');
+    
                         enemies[key] = null;
                         
                         gameOver = true;
@@ -292,10 +310,16 @@ var ShooterGame = function(config){
                 }
 
                 scoreManager.show();
-
+                debugger
                 if(!gameOver){
                     setTimeout(draw, 1000/30)
+                } else{
+                    gameDone.show()
                 }
+                // if(gameOver){
+                //     gameOver.show(true)
+                // } 
+                
             }
 
             draw();
@@ -322,30 +346,6 @@ var ShooterGame = function(config){
                 KEY_STATUS[KEY_CODES[code]] = false;
             }
 
-            // window.addEventListener('keypress', function(e){
-            //     var code = e.keyCode || e.charCode
-            //     debugger
-            //     // var keyCode = (e.keyCode) ? e.keyCode : e.charCode
-            //     // var keyCode = (e.keyCode || e.charCode)
-            //     switch(code){
-            //         case 32: bullets.push(new Bullet(player.gameObject, new GameObject(0,-20,0,0)));
-            //         // case (97 || 119 || 115 || 122): player.update(KEY_STATUS[KEY_CODES[keyCode]] = true);
-            //         // case 37: player.update(KEY_STATUS[KEY_CODES[keyCode]] = true);
-            //         // case 38: player.update(KEY_STATUS[KEY_CODES[keyCode]] = true);
-            //         // case 39: player.update(KEY_STATUS[KEY_CODES[keyCode]] = true);
-            //         // case 40: player.update(KEY_STATUS[KEY_CODES[keyCode]] = true);
-            //         break;
-            //     }
-            // });
-
-            // var lastX = 0;
-            // canvas.addEventListener('mousemove', function(e){
-            //     var x = e.clientX;
-
-            //     player.update(new GameObject(x- lastX,0,0,0));
-            //     lastX = x;
-            // });
-
             window.addEventListener('keydown',function(e){
                 // debugger
                 var keyCode = (e.keyCode) ? e.keyCode : e.charCode
@@ -368,16 +368,11 @@ var ShooterGame = function(config){
                 }
             });
 
-            // canvas.addEventListener('mousedown', function(e){
-            //     bullets.push(new Bullet(player.gameObject, new GameObject(0,-20,0,0)));
-            // });
     }
 
     World();
     // debugger
-    // document.body.appendChild(canvas); 
     document.getElementById('shooting-area').appendChild(canvas)
-    // document.querySelectorAll('.shooting-area').appendChild(canvas)
 }
 
 ShooterGame();
