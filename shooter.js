@@ -216,7 +216,7 @@ var ShooterGame = function(config){
             var enemies = [];
             var bullets = [];
             var lastEnemy = 0;
-            var enemyTimeThreshold = 1000;
+            var enemyTimeThreshold = 680;
             var update = function(){
                 if(lastEnemy + enemyTimeThreshold < Date.now()){
                     enemies.push(new Enemy(new GameObject(0,5,0,0)));
